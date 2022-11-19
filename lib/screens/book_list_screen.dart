@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:tugas_2_bootcamp/models/book_list_respone.dart';
+import 'package:tugas_2_bootcamp/screens/detail_book_screen.dart';
 
 class BookListScreen extends StatefulWidget {
   const BookListScreen({super.key});
@@ -57,34 +58,44 @@ class _BookListScreenState extends State<BookListScreen> {
                 itemCount: booklist!.books!.length,
                 itemBuilder: ((context, index) {
                   final currentBook = booklist!.books![index];
-                  return Row(
-                    children: [
-                      Image.network(
-                        currentBook.image!,
-                        height: 100,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(currentBook.title!),
-                              Text(currentBook.subtitle!),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  currentBook.price!,
-                                  style: const TextStyle(
-                                    color: Colors.green,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: ((context) => const DetailBookScreen()),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Image.network(
+                          currentBook.image!,
+                          height: 100,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(currentBook.title!),
+                                Text(currentBook.subtitle!),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    currentBook.price!,
+                                    style: const TextStyle(
+                                      color: Colors.green,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   );
                 })),
       ),
