@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +20,8 @@ class _BookListScreenState extends State<BookListScreen> {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    // print(await http.read(Uri.https('example.com', 'foobar.txt')));
+    //Mengubah respone dari body yang berupa string kedalam Json
+    final jsonBookList = jsonDecode(response.body);
   }
 
   //Melakukan Pemanggilan Function fectBookApi
