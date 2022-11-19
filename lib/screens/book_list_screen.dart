@@ -62,7 +62,9 @@ class _BookListScreenState extends State<BookListScreen> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: ((context) => const DetailBookScreen()),
+                          builder: ((context) => DetailBookScreen(
+                                isbn: currentBook.isbn13!,
+                              )),
                         ),
                       );
                     },
