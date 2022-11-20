@@ -55,6 +55,7 @@ class _BookListScreenState extends State<BookListScreen> {
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: booklist!.books!.length,
                 itemBuilder: ((context, index) {
                   final currentBook = booklist!.books![index];
