@@ -69,6 +69,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           height: 50,
@@ -95,6 +96,96 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                           detailBook!.desc!,
                           textAlign: TextAlign.justify,
                         ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Publisher : ",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              detailBook!.publisher!,
+                              textAlign: TextAlign.justify,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Language : ",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              detailBook!.language!,
+                              textAlign: TextAlign.justify,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Year : ",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              detailBook!.year!,
+                              textAlign: TextAlign.justify,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          detailBook!.isbn13!,
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: List.generate(
+                            5,
+                            (index) => Icon(
+                              Icons.star,
+                              color: index > int.parse(detailBook!.rating!)
+                                  ? Colors.amber
+                                  : Colors.grey,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
