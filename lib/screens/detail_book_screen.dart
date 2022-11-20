@@ -56,6 +56,25 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                 child: Column(
                   children: [
                     DetailBookCard(detailBook: detailBook),
+                    Container(
+                      height: 35,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.blue,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Buy",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Text(detailBook!.desc!),
                   ],
                 ),
@@ -87,16 +106,34 @@ class DetailBookCard extends StatelessWidget {
             children: [
               Text(
                 detailBook!.title!,
-                style: TextStyle(
+                style: const TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(detailBook!.subtitle!),
+              Text(
+                detailBook!.authors!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                detailBook!.subtitle!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
               Text(
                 detailBook!.price!,
-                style: TextStyle(
-                  fontSize: 30,
+                style: const TextStyle(
+                  fontSize: 22,
                   color: Colors.green,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
