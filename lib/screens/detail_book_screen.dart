@@ -185,7 +185,10 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                                   : Colors.grey,
                             ),
                           ),
-                        )
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
                       ],
                     ),
                   ),
