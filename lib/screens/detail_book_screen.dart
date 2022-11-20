@@ -51,33 +51,54 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    DetailBookCard(detailBook: detailBook),
-                    Container(
-                      height: 35,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.blue,
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Buy",
-                          style: TextStyle(
-                            color: Colors.white,
+            : Column(
+                children: [
+                  //Part 1
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Column(
+                      children: [
+                        DetailBookCard(detailBook: detailBook),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Part 2
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.blue,
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Buy",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          detailBook!.desc!,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(detailBook!.desc!),
-                  ],
-                ),
+                  ),
+                ],
               ));
   }
 }
@@ -93,52 +114,55 @@ class DetailBookCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Image.network(
           detailBook!.image!,
-          height: 100,
+          height: 120,
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                detailBook!.title!,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 25,
                 ),
-              ),
-              Text(
-                detailBook!.authors!,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+                Text(
+                  detailBook!.title!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                detailBook!.subtitle!,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+                Text(
+                  detailBook!.authors!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.grey),
                 ),
-              ),
-              Text(
-                detailBook!.price!,
-                style: const TextStyle(
-                  fontSize: 22,
-                  color: Colors.green,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-            ],
+                Text(
+                  detailBook!.subtitle!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                Text(
+                  detailBook!.price!,
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 28,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        )
       ],
     );
   }
