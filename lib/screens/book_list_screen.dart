@@ -60,46 +60,73 @@ class _BookListScreenState extends State<BookListScreen> {
                 itemBuilder: ((context, index) {
                   final currentBook = booklist!.books![index];
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: ((context) => DetailBookScreen(
-                                isbn: currentBook.isbn13!,
-                              )),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Image.network(
-                          currentBook.image!,
-                          height: 100,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(currentBook.title!),
-                                Text(currentBook.subtitle!),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    currentBook.price!,
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: ((context) => DetailBookScreen(
+                                  isbn: currentBook.isbn13!,
+                                )),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16.0, left: 16.0, right: 16.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              10,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  );
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.network(currentBook.image!),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16.0,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        currentBook.title!,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        currentBook.title!,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                currentBook.price!,
+                                style: const TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ));
                 })),
       ),
     );
