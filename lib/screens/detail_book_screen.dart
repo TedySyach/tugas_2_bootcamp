@@ -48,11 +48,61 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
           ),
         ),
         body: detailBook == null
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Column(
-                children: [],
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    DetailBookCard(detailBook: detailBook),
+                    Text(detailBook!.desc!),
+                  ],
+                ),
               ));
+  }
+}
+
+class DetailBookCard extends StatelessWidget {
+  const DetailBookCard({
+    Key? key,
+    required this.detailBook,
+  }) : super(key: key);
+
+  final BookDetailResponse? detailBook;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Image.network(
+          detailBook!.image!,
+          height: 100,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                detailBook!.title!,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(detailBook!.subtitle!),
+              Text(
+                detailBook!.price!,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
