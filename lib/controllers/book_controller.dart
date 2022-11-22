@@ -15,8 +15,6 @@ class BookController extends ChangeNotifier {
     var response = await http.get(
       url,
     );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     //Mengubah respone dari body yang berupa string kedalam Json
     if (response.statusCode == 200) {
@@ -35,8 +33,6 @@ class BookController extends ChangeNotifier {
     var response = await http.get(
       url,
     );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       final jsonDetail = jsonDecode(response.body);
@@ -53,8 +49,6 @@ class BookController extends ChangeNotifier {
     var response = await http.get(
       url,
     );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       final jsonDetail = jsonDecode(response.body);

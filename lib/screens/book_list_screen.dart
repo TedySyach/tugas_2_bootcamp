@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:tugas_2_bootcamp/controllers/book_controller.dart';
-import 'package:tugas_2_bootcamp/models/book_list_respone.dart';
 import 'package:tugas_2_bootcamp/screens/detail_book_screen.dart';
 
 class BookListScreen extends StatefulWidget {
@@ -20,7 +16,6 @@ class _BookListScreenState extends State<BookListScreen> {
   //Melakukan Pemanggilan Function fectBookApi
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     bookController = Provider.of<BookController>(context, listen: false);
     bookController!.fetchBookApi();

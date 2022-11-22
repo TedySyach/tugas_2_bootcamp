@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:tugas_2_bootcamp/controllers/book_controller.dart';
 import 'package:tugas_2_bootcamp/models/book_detail_response.dart';
-import 'package:tugas_2_bootcamp/models/book_list_respone.dart';
 
 class DetailBookScreen extends StatefulWidget {
   const DetailBookScreen({super.key, required this.isbn});
@@ -19,7 +15,6 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
   BookController? bookController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     bookController = Provider.of<BookController>(context, listen: false);
     bookController!.fetchBookDetailApi(widget.isbn);
@@ -33,8 +28,9 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
             "Detail Buku",
           ),
         ),
-        body: Consumer<BookController>(builder: (context, controller, child) {
-          return bookController!.detailBook == null
+        body:
+            Consumer<BookController>(builder: (context, bookController, child) {
+          return bookController.detailBook == null
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -49,7 +45,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                         child: Column(
                           children: [
                             DetailBookCard(
-                                detailBook: bookController!.detailBook),
+                                detailBook: bookController.detailBook),
                             const SizedBox(
                               height: 5,
                             ),
@@ -61,7 +57,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: MoreDetailCard(
-                            detailBook: bookController!.detailBook),
+                            detailBook: bookController.detailBook),
                       ),
                       //Part 3
 
@@ -78,7 +74,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      bookController!.similarBook == null
+                      bookController.similarBook == null
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
@@ -87,10 +83,10 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                                 child: ListView.builder(
                                     physics: const BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: bookController!
+                                    itemCount: bookController
                                         .similarBook!.books!.length,
                                     itemBuilder: (((context, index) {
-                                      final current = bookController!
+                                      final current = bookController
                                           .similarBook!.books![index];
                                       return Padding(
                                         padding:
