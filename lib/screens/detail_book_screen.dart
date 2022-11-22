@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:tugas_2_bootcamp/controllers/book_controller.dart';
 import 'package:tugas_2_bootcamp/models/book_detail_response.dart';
 import 'package:tugas_2_bootcamp/models/book_list_respone.dart';
 
@@ -14,47 +16,13 @@ class DetailBookScreen extends StatefulWidget {
 }
 
 class _DetailBookScreenState extends State<DetailBookScreen> {
-  //variable public
-  BookDetailResponse? detailBook;
-  //Fungsi untuk mengambil data dari API
-  fetchBookApi() async {
-    print("ISBN : ${widget.isbn}");
-    var url = Uri.parse('https://api.itbook.store/1.0/books/${widget.isbn}');
-    var response = await http.get(
-      url,
-    );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    if (response.statusCode == 200) {
-      final jsonDetail = jsonDecode(response.body);
-      detailBook = BookDetailResponse.fromJson(jsonDetail);
-      setState(() {});
-      fetchSimilarBookApi(detailBook!.title!);
-    }
-  }
-
-  BookListRespone? similarBook;
-  fetchSimilarBookApi(String tittle) async {
-    var url = Uri.parse('https://api.itbook.store/1.0/search/$tittle');
-    var response = await http.get(
-      url,
-    );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    if (response.statusCode == 200) {
-      final jsonDetail = jsonDecode(response.body);
-      similarBook = BookListRespone.fromJson(jsonDetail);
-      setState(() {});
-    }
-  }
-
+  BookController? bookController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchBookApi();
+    bookController = Provider.of<BookController>(context, listen: false);
+    bookController!.fetchBookDetailApi(widget.isbn);
   }
 
   @override
@@ -65,96 +33,108 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
             "Detail Buku",
           ),
         ),
-        body: detailBook == null
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //Part 1
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Column(
-                        children: [
-                          DetailBookCard(detailBook: detailBook),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //Part 2
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: MoreDetailCard(detailBook: detailBook),
-                    ),
-                    //Part 3
-
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Similar",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
+        body: Consumer<BookController>(builder: (context, controller, child) {
+          return bookController!.detailBook == null
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //Part 1
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Column(
+                          children: [
+                            DetailBookCard(
+                                detailBook: bookController!.detailBook),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        child: similarBook == null
-                            ? const CircularProgressIndicator()
-                            : ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: similarBook!.books!.length,
-                                itemBuilder: (((context, index) {
-                                  final current = similarBook!.books![index];
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left: 16.0),
-                                    child: Container(
-                                      width: 140,
-                                      decoration: BoxDecoration(
-                                        color: Colors.blueAccent,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            current.image!,
-                                            height: 120,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 5,
-                                            ),
-                                            child: Text(
-                                              current.title!,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }))),
+
+                      //Part 2
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: MoreDetailCard(
+                            detailBook: bookController!.detailBook),
                       ),
-                    )
-                  ],
-                ),
-              ));
+                      //Part 3
+
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Similar",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      bookController!.similarBook == null
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Expanded(
+                              child: SizedBox(
+                                child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: bookController!
+                                        .similarBook!.books!.length,
+                                    itemBuilder: (((context, index) {
+                                      final current = bookController!
+                                          .similarBook!.books![index];
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 16.0),
+                                        child: Container(
+                                          width: 140,
+                                          decoration: BoxDecoration(
+                                            color: Colors.blueAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Image.network(
+                                                current.image!,
+                                                height: 120,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 5,
+                                                ),
+                                                child: Text(
+                                                  current.title!,
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }))),
+                              ),
+                            )
+                    ],
+                  ),
+                );
+        }));
   }
 }
 
